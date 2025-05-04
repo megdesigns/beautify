@@ -458,7 +458,7 @@
       gap: 10px;
     }
 
-    /* CHANGE 1: Social icons hover effect */
+  
     .social-icons a {
       transition: color 0.3s, background-color 0.3s;
       padding: 5px 10px;
@@ -468,6 +468,17 @@
       background-color: #e31cf5;
       color: white;
     }
+
+section, .event-banner, .site-footer {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+section.visible, .event-banner.visible, .site-footer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
   </style>
 </head>
 <body>
@@ -645,33 +656,51 @@
     function prevSlide(id) {
       const track = document.getElementById(id);
       const cardWidth = track.children[0].offsetWidth + 20;
-      
-      // Prepare for scroll animation
+    
       track.style.scrollBehavior = 'auto';
       track.insertBefore(track.children[track.children.length - 1], track.children[0]);
       track.scrollLeft = cardWidth;
       
-      // Trigger scroll animation
+    
       setTimeout(() => {
         track.style.scrollBehavior = 'smooth';
         track.scrollLeft = 0;
       }, 10);
     }
-    
-    // Auto-trigger the sliding animation for the "Hot New Product" section when page loads
+  
     document.addEventListener('DOMContentLoaded', function() {
       // Reset animations to allow them to replay on page refresh
       const promoText = document.querySelector('.promo-text');
       const promoImage = document.querySelector('.promo-image');
       
-      // Force a reflow to make sure the animation restarts
+     
       void promoText.offsetWidth;
       void promoImage.offsetWidth;
       
-      // Re-add the animation classes
+   
       promoText.style.animation = 'slideInFromLeft 1s ease-out';
       promoImage.style.animation = 'slideInFromRight 1s ease-out';
     });
+
+    // Scroll effect for sections
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section, .event-banner, .site-footer');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); 
+      }
+    });
+  }, {
+    threshold: 0.1 
+  });
+  
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+});
   </script>
 
 </body>
