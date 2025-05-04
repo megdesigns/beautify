@@ -52,8 +52,15 @@
       position: relative;
     }
 
+    /* CHANGE 1: Navigation highlight on hover with purple color */
     .nav-links a {
       padding: 5px 10px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      background-color: #e31cf5;
+      color: white;
     }
 
     .dropdown:hover .dropdown-menu {
@@ -161,6 +168,7 @@
       transform: translateX(-50%);
     }
 
+    /* CHANGE 2: Arrow button hover effect */
     .arrow {
       border: 1.5px solid #e31cf5;
       background: transparent;
@@ -173,6 +181,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .arrow:hover {
+      background-color: #e31cf5;
+      color: white;
     }
 
     /* PROMO SECTION */
@@ -185,6 +199,7 @@
       gap: 20px;
     }
 
+    /* CHANGE 4: Hot new product slide animation */
     .promo-text {
       flex: 1;
       border: 1px solid #e31cf5;
@@ -195,12 +210,36 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      animation: slideInFromLeft 1s ease-out;
     }
 
     .promo-image {
       flex: 1;
       width: 400px;
       height: 400px;
+      animation: slideInFromRight 1s ease-out;
+    }
+
+    @keyframes slideInFromLeft {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideInFromRight {
+      0% {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
 
     .promo-image img {
@@ -209,6 +248,7 @@
       object-fit: cover;
     }
 
+    /* CHANGE 2: Shop now button hover effect */
     .shop-now-btn {
       background: #e31cf5;
       color: white;
@@ -218,6 +258,12 @@
       font-family: 'Manrope';
       font-size: 14px;
       align-self: flex-start;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    
+    .shop-now-btn:hover {
+      transform: scale(1.05);
+      background-color: #c00abf;
     }
 
     /* EVENT BANNER */
@@ -240,6 +286,7 @@
       padding: 20px;
     }
 
+    /* CHANGE 2: Button hover effect */
     .btn {
       background: #e31cf5;
       color: white;
@@ -247,6 +294,12 @@
       padding: 10px 20px;
       cursor: pointer;
       font-family: 'Manrope';
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    
+    .btn:hover {
+      transform: scale(1.05);
+      background-color: #c00abf;
     }
 
     .events-section {
@@ -317,12 +370,19 @@
       font-size: 14px;
     }
 
+    /* CHANGE 2: Subscribe button hover effect */
     .newsletter button {
       background: #e31cf5;
       color: white;
       border: none;
       padding: 8px 16px;
       font-size: 14px;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    
+    .newsletter button:hover {
+      transform: scale(1.05);
+      background-color: #c00abf;
     }
 
     .footer-bottom {
@@ -337,14 +397,31 @@
       gap: 20px;
     }
 
+    /* CHANGE 1: Footer nav hover effect */
+    .footer-nav a {
+      transition: color 0.3s, background-color 0.3s;
+      padding: 5px 10px;
+    }
+    
+    .footer-nav a:hover {
+      background-color: #e31cf5;
+      color: white;
+    }
+
     .social-icons {
       display: flex;
       gap: 10px;
     }
 
-    .social-icons img {
-      width: 24px;
-      height: 24px;
+    /* CHANGE 1: Social icons hover effect */
+    .social-icons a {
+      transition: color 0.3s, background-color 0.3s;
+      padding: 5px 10px;
+    }
+    
+    .social-icons a:hover {
+      background-color: #e31cf5;
+      color: white;
     }
   </style>
 </head>
@@ -474,7 +551,7 @@
   <div class="event-banner">
     <img src="photos/event banner.jpg" alt="Event banner">
     <div class="event-text">
-      <p>Don’t miss our upcoming glow event!</p>
+      <p>Don't miss our upcoming glow event!</p>
       <button class="btn">Register</button>
     </div>
   </div>
@@ -503,16 +580,17 @@
   </footer>
 
   <script>
+    // CHANGE 3: Improved smooth carousel transitions
     function nextSlide(id) {
       const track = document.getElementById(id);
       const cardWidth = track.children[0].offsetWidth + 20; // Card width + gap
-      track.style.transition = 'transform 0.3s ease';
+      track.style.transition = 'transform 0.5s ease-in-out';
       track.style.transform = `translateX(-${cardWidth}px)`;
       setTimeout(() => {
         track.style.transition = 'none';
         track.appendChild(track.children[0]);
         track.style.transform = 'translateX(0)';
-      }, 300);
+      }, 500);
     }
 
     function prevSlide(id) {
@@ -522,10 +600,25 @@
       track.insertBefore(track.children[track.children.length - 1], track.children[0]);
       track.style.transform = `translateX(-${cardWidth}px)`;
       setTimeout(() => {
-        track.style.transition = 'transform 0.3s ease';
+        track.style.transition = 'transform 0.5s ease-in-out';
         track.style.transform = 'translateX(0)';
       }, 10);
     }
+    
+    // Auto-trigger the sliding animation for the "Hot New Product" section when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Reset animations to allow them to replay on page refresh
+      const promoText = document.querySelector('.promo-text');
+      const promoImage = document.querySelector('.promo-image');
+      
+      // Force a reflow to make sure the animation restarts
+      void promoText.offsetWidth;
+      void promoImage.offsetWidth;
+      
+      // Re-add the animation classes
+      promoText.style.animation = 'slideInFromLeft 1s ease-out';
+      promoImage.style.animation = 'slideInFromRight 1s ease-out';
+    });
   </script>
 
 </body>
