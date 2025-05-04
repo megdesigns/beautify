@@ -63,24 +63,34 @@
       color: white;
     }
 
+    .dropdown .dropdown-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    }
+    
     .dropdown:hover .dropdown-menu {
-      display: flex;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
     }
 
     .dropdown-menu {
-      display: none;
       position: absolute;
       top: 30px;
       left: 0;
-      background: white;
-      border: 1px solid #e3d8cc;
-      padding: 10px;
+      background: rgba(255, 235, 255, 0.95);
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(227, 28, 245, 0.2);
+      padding: 15px;
       z-index: 100;
       flex-direction: row;
       justify-content: space-between;
       width: 500px;
-      height: 40px;
+      height: auto;
       align-items: center;
+      display: flex;
     }
 
     .dropdown-menu li {
@@ -90,15 +100,32 @@
     }
 
     .dropdown-menu li a {
-      padding: 5px 15px;
+      padding: 8px 15px;
       font-size: 14px;
       text-transform: uppercase;
       font-weight: 600;
       color: #333;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropdown-menu li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #e31cf5;
+      transition: width 0.3s;
     }
 
     .dropdown-menu li a:hover {
-      color: #a8744f;
+      color: #e31cf5;
+    }
+    
+    .dropdown-menu li a:hover::after {
+      width: 100%;
     }
 
     /* HERO */
@@ -132,6 +159,7 @@
       overflow: hidden;
       width: 90%;
       justify-content: center;
+      scroll-behavior: smooth; /* Added smooth scroll animation */
     }
 
     .card {
@@ -321,6 +349,13 @@
       padding: 20px;
       border: 1px solid #e3d8cc;
       text-align: left;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    
+    .event-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(227, 28, 245, 0.2);
     }
 
     .event-card img {
@@ -328,11 +363,21 @@
       height: 150px;
       object-fit: cover;
       margin-bottom: 10px;
+      transition: opacity 0.3s;
+    }
+    
+    .event-card:hover img {
+      opacity: 0.9;
     }
 
     .event-card h3 {
       font-size: 18px;
       margin-bottom: 10px;
+      transition: color 0.3s;
+    }
+    
+    .event-card:hover h3 {
+      color: #e31cf5;
     }
 
     .event-card p {
@@ -580,28 +625,36 @@
   </footer>
 
   <script>
-    // CHANGE 3: Improved smooth carousel transitions
+    // Improved carousel transitions with scroll animation
     function nextSlide(id) {
       const track = document.getElementById(id);
       const cardWidth = track.children[0].offsetWidth + 20; // Card width + gap
-      track.style.transition = 'transform 0.5s ease-in-out';
-      track.style.transform = `translateX(-${cardWidth}px)`;
+      
+      // Scroll animation
+      track.style.scrollBehavior = 'smooth';
+      track.scrollLeft += cardWidth;
+      
+      // After scroll completes, rearrange elements
       setTimeout(() => {
-        track.style.transition = 'none';
+        track.style.scrollBehavior = 'auto';
         track.appendChild(track.children[0]);
-        track.style.transform = 'translateX(0)';
+        track.scrollLeft = 0;
       }, 500);
     }
 
     function prevSlide(id) {
       const track = document.getElementById(id);
-      const cardWidth = track.children[0].offsetWidth + 20; 
-      track.style.transition = 'none';
+      const cardWidth = track.children[0].offsetWidth + 20;
+      
+      // Prepare for scroll animation
+      track.style.scrollBehavior = 'auto';
       track.insertBefore(track.children[track.children.length - 1], track.children[0]);
-      track.style.transform = `translateX(-${cardWidth}px)`;
+      track.scrollLeft = cardWidth;
+      
+      // Trigger scroll animation
       setTimeout(() => {
-        track.style.transition = 'transform 0.5s ease-in-out';
-        track.style.transform = 'translateX(0)';
+        track.style.scrollBehavior = 'smooth';
+        track.scrollLeft = 0;
       }, 10);
     }
     
