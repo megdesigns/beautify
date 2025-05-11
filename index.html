@@ -16,7 +16,6 @@
       font-family: 'Manrope', sans-serif;
       background-color: #fef1ff;
       color: #333;
-      overflow-x: hidden;
     }
 
     a {
@@ -24,6 +23,7 @@
       color: inherit;
     }
 
+    /* NAVIGATION */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -54,80 +54,58 @@
 
     .nav-links a {
       padding: 5px 10px;
-      transition: background-color 0.3s ease;
-    }
-    
-    .nav-links a:hover {
-      background-color: #e31cf5;
-      color: white;
     }
 
-    /* Updated dropdown styles */
-    .dropdown {
-      position: relative;
-    }
-    
-    .dropdown > a::after {
-      content: "▼";
-      font-size: 10px;
-      margin-left: 5px;
-      vertical-align: middle;
-    }
-
-    .dropdown .dropdown-menu {
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-      transition: all 0.3s ease;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: rgba(255, 245, 255, 0.98);
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(227, 28, 245, 0.2);
-      padding: 12px 0;
-      z-index: 100;
-      min-width: 180px;
-      border: 1px solid #f9b3ff;
-    }
-    
     .dropdown:hover .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
+      display: flex;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 30px;
+      left: 0;
+      background: white;
+      border: 1px solid #e3d8cc;
+      padding: 10px;
+      z-index: 100;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 500px;
+      height: 40px;
+      align-items: center;
     }
 
     .dropdown-menu li {
-      width: 100%;
-      display: block;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
     }
 
     .dropdown-menu li a {
-      display: block;
-      padding: 10px 20px;
+      padding: 5px 15px;
       font-size: 14px;
+      text-transform: uppercase;
       font-weight: 600;
       color: #333;
-      transition: all 0.3s ease;
-      border-left: 3px solid transparent;
     }
 
     .dropdown-menu li a:hover {
-      background-color: #f9b3ff;
-      color: #e31cf5;
-      border-left: 3px solid #e31cf5;
+      color: #a8744f;
     }
 
-    /* Rest of your CSS remains the same */
+    /* HERO */
     .hero img {
       width: 100%;
       height: 300px;
       object-fit: cover;
     }
 
+    /* SLIDER SECTION */
     .slider-section {
       padding: 40px 20px;
       text-align: center;
+      position: relative;
     }
 
     .slider-title {
@@ -140,6 +118,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      position: relative;
     }
 
     .slider-track {
@@ -148,7 +127,6 @@
       overflow: hidden;
       width: 90%;
       justify-content: center;
-      scroll-behavior: smooth; 
     }
 
     .card {
@@ -159,12 +137,21 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
+      border-radius: 8px;
     }
 
     .card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    
+    /* Image hover effect */
+    .card:hover img {
+      transform: scale(1.05);
+      filter: brightness(1.1);
     }
 
     .label {
@@ -183,11 +170,17 @@
       text-align: center;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 10;
+      transition: background-color 0.3s ease;
+    }
+    
+    .card:hover .label {
+      background-color: #c00fd2;
     }
 
     .arrow {
       border: 1.5px solid #e31cf5;
-      background: transparent;
+      background: white;
       color: #e31cf5;
       font-size: 20px;
       border-radius: 50%;
@@ -197,14 +190,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.3s, color 0.3s;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
     }
     
     .arrow:hover {
-      background-color: #e31cf5;
+      background: #e31cf5;
       color: white;
     }
+    
+    .arrow-prev {
+      left: 0;
+    }
+    
+    .arrow-next {
+      right: 0;
+    }
 
+    /* PROMO SECTION */
     .promo-split {
       display: flex;
       align-items: center;
@@ -225,30 +232,43 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transform: translateX(-100%);
       opacity: 0;
-      transition: transform 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67), opacity 1.2s ease-out;
+      transform: translateX(-100px);
+      animation: slideInFromLeft 1s forwards;
     }
 
     .promo-image {
       flex: 1;
       width: 400px;
       height: 400px;
-      transform: translateX(100%);
       opacity: 0;
-      transition: transform 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67), opacity 1.2s ease-out;
+      transform: translateX(100px);
+      animation: slideInFromRight 1s forwards;
     }
-
-    .promo-split.visible .promo-text,
-    .promo-split.visible .promo-image {
-      transform: translateX(0);
-      opacity: 1;
+    
+    @keyframes slideInFromLeft {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes slideInFromRight {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .promo-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .promo-image:hover img {
+      transform: scale(1.05);
     }
 
     .shop-now-btn {
@@ -260,14 +280,14 @@
       font-family: 'Manrope';
       font-size: 14px;
       align-self: flex-start;
-      transition: transform 0.3s, background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
     
     .shop-now-btn:hover {
-      transform: scale(1.05);
-      background-color: #c00abf;
+      background: #c00fd2;
     }
 
+    /* EVENT BANNER */
     .event-banner {
       position: relative;
       margin: 40px 0;
@@ -277,6 +297,11 @@
       width: 100%;
       height: 300px;
       object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .event-banner:hover img {
+      transform: scale(1.02);
     }
 
     .event-text {
@@ -294,12 +319,11 @@
       padding: 10px 20px;
       cursor: pointer;
       font-family: 'Manrope';
-      transition: transform 0.3s, background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
     
     .btn:hover {
-      transform: scale(1.05);
-      background-color: #c00abf;
+      background: #c00fd2;
     }
 
     .events-section {
@@ -321,13 +345,12 @@
       padding: 20px;
       border: 1px solid #e3d8cc;
       text-align: left;
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
     .event-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(227, 28, 245, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     .event-card img {
@@ -335,21 +358,16 @@
       height: 150px;
       object-fit: cover;
       margin-bottom: 10px;
-      transition: opacity 0.3s;
+      transition: transform 0.3s ease;
     }
     
     .event-card:hover img {
-      opacity: 0.9;
+      transform: scale(1.05);
     }
 
     .event-card h3 {
       font-size: 18px;
       margin-bottom: 10px;
-      transition: color 0.3s;
-    }
-    
-    .event-card:hover h3 {
-      color: #e31cf5;
     }
 
     .event-card p {
@@ -357,6 +375,7 @@
       color: #666;
     }
 
+    /* FOOTER */
     .site-footer {
       background: #f3e0f5;
       padding: 40px 20px;
@@ -384,6 +403,12 @@
       padding: 8px;
       border: 1px solid #ccc;
       font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+    
+    .newsletter input:focus {
+      border-color: #e31cf5;
+      outline: none;
     }
 
     .newsletter button {
@@ -392,12 +417,11 @@
       border: none;
       padding: 8px 16px;
       font-size: 14px;
-      transition: transform 0.3s, background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
     
     .newsletter button:hover {
-      transform: scale(1.05);
-      background-color: #c00abf;
+      background: #c00fd2;
     }
 
     .footer-bottom {
@@ -411,106 +435,30 @@
       display: flex;
       gap: 20px;
     }
-
+    
     .footer-nav a {
-      transition: color 0.3s, background-color 0.3s;
-      padding: 5px 10px;
+      transition: color 0.3s ease;
     }
     
     .footer-nav a:hover {
-      background-color: #e31cf5;
-      color: white;
+      color: #e31cf5;
     }
 
     .social-icons {
       display: flex;
       gap: 10px;
     }
-
+    
     .social-icons a {
-      transition: color 0.3s, background-color 0.3s;
-      padding: 5px 10px;
+      transition: color 0.3s ease;
     }
     
     .social-icons a:hover {
-      background-color: #e31cf5;
-      color: white;
-    }
-
-    section, .event-banner, .site-footer {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-      will-change: opacity, transform;
-    }
-
-    section.visible, .event-banner.visible, .site-footer.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .slider-section:nth-of-type(odd) {
-      transform: translateX(-50px);
-    }
-
-    .slider-section:nth-of-type(even) {
-      transform: translateX(50px);
-    }
-
-    .events-section.visible .event-card {
-      animation: popIn 0.6s ease-out forwards;
-      opacity: 0;
-    }
-
-    .events-section.visible .event-card:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-
-    .events-section.visible .event-card:nth-child(2) {
-      animation-delay: 0.3s;
-    }
-
-    .events-section.visible .event-card:nth-child(3) {
-      animation-delay: 0.5s;
-    }
-
-    @keyframes popIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      70% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .progress-container {
-      position: fixed;
-      top: 0;
-      z-index: 1001;
-      width: 100%;
-      height: 4px;
-      background: transparent;
-    }
-
-    .progress-bar {
-      height: 4px;
-      background: #e31cf5;
-      width: 0%;
-      transition: width 0.1s ease-out;
+      color: #e31cf5;
     }
   </style>
 </head>
 <body>
-
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
 
   <nav class="navbar">
     <div class="logo">BeautyStore</div>
@@ -522,9 +470,6 @@
           <li><a href="#">Best Sellers</a></li>
           <li><a href="#">Face</a></li>
           <li><a href="#">Body</a></li>
-          <li><a href="#">Eyes</a></li>
-          <li><a href="#">Lips</a></li>
-          <li><a href="#">Hair</a></li>
           <li><a href="#">New</a></li>
           <li><a href="#">Shop All</a></li>
         </ul>
@@ -536,7 +481,7 @@
 
   <section class="hero">
     <div class="event-banner">
-      <img src="photos/Makeup-Header.jpg" alt="Girl holding lip gloss">
+      <img src="pictures/Makeup-Header.jpg" alt="Girl holding lip gloss">
       <div class="event-text" style="left: 20px; right: auto; display: flex; flex-direction: column; align-items: flex-start; gap: 10px;">
       <p>Discover the latest beauty trends!</p>
       <div style="display: flex; gap: 10px;">
@@ -550,15 +495,15 @@
   <section class="slider-section">
     <h2 class="slider-title">New Arrivals</h2>
     <div class="slider-container">
-      <div class="arrow" onclick="prevSlide('newArrivals')">❮</div>
+      <div class="arrow arrow-prev" onclick="prevSlide('newArrivals')">❮</div>
       <div class="slider-track" id="newArrivals">
-        <div class="card"><img src="photos/fentyskin.jpg" alt="Product 1"><span class="label">Product 1</span></div>
-        <div class="card"><img src="photos/rarebeautyhydrating.jpg" alt="Product 2"><span class="label">Product 2</span></div>
-        <div class="card"><img src="photos/rarebeautylip.jpg" alt="Product 4"><span class="label">Product 4</span></div>
-        <div class="card"><img src="photos/rhodeglazingfluid.jpeg" alt="Product 3"><span class="label">Product 3</span></div>
-        <div class="card"><img src="photos/ysl.jpeg" alt="Product 5"><span class="label">Product 5</span></div>
+        <div class="card"><img src="pictures/fentyskin.jpg" alt="Product 1"><span class="label">Product 1</span></div>
+        <div class="card"><img src="pictures/rarebeautyhydrating.jpg" alt="Product 2"><span class="label">Product 2</span></div>
+        <div class="card"><img src="pictures/rarebeautylip.jpg" alt="Product 4"><span class="label">Product 4</span></div>
+        <div class="card"><img src="pictures/rhodeglazingfluid.jpeg" alt="Product 3"><span class="label">Product 3</span></div>
+        <div class="card"><img src="pictures/ysl.jpeg" alt="Product 5"><span class="label">Product 5</span></div>
       </div>
-      <div class="arrow" onclick="nextSlide('newArrivals')">❯</div>
+      <div class="arrow arrow-next" onclick="nextSlide('newArrivals')">❯</div>
     </div>
   </section>
 
@@ -569,49 +514,49 @@
       <a href="#" class="shop-now-btn">Shop Now</a>
     </div>
     <div class="promo-image">
-      <img src="photos/hotnew.jpg" alt="Hot product" />
+      <img src="pictures/hotnew.jpg" alt="Hot product" />
     </div>
   </section>
 
   <section class="slider-section">
     <h2 class="slider-title">New Releases</h2>
     <div class="slider-container"> 
-      <div class="arrow" onclick="prevSlide('newReleases')">❮</div>
+      <div class="arrow arrow-prev" onclick="prevSlide('newReleases')">❮</div>
       <div class="slider-track" id="newReleases">
-        <div class="card"><img src="photos/rhodebarrierrestore.jpeg" alt="Release 1"><span class="label">Release 1</span></div>
-        <div class="card"><img src="photos/diorbeautyjpg.jpg" alt="Release 2"><span class="label">Release 2</span></div>
-        <div class="card"><img src="photos/merit.jpg" alt="Release 3"><span class="label">Release 3</span></div>
-        <div class="card"><img src="photos/glossier.jpg" alt="Release 4"><span class="label">Release 4</span></div>
+        <div class="card"><img src="pictures/rhodebarrierrestore.jpeg" alt="Release 1"><span class="label">Release 1</span></div>
+        <div class="card"><img src="pictures/diorbeautyjpg.jpg" alt="Release 2"><span class="label">Release 2</span></div>
+        <div class="card"><img src="pictures/merit.jpg" alt="Release 3"><span class="label">Release 3</span></div>
+        <div class="card"><img src="pictures/glossier.jpg" alt="Release 4"><span class="label">Release 4</span></div>
       </div>
-      <div class="arrow" onclick="nextSlide('newReleases')">❯</div>
+      <div class="arrow arrow-next" onclick="nextSlide('newReleases')">❯</div>
     </div>
   </section>
 
   <section class="slider-section">
     <h2 class="slider-title">Shop by Category</h2>
     <div class="slider-container">
-      <div class="arrow" onclick="prevSlide('categories')">❮</div>
+      <div class="arrow arrow-prev" onclick="prevSlide('categories')">❮</div>
       <div class="slider-track" id="categories">
-        <div class="card"><img src="photos/bmface.jpg" alt="Face" style="align-content: center;" /> <span class="label">Face</span></div>
-        <div class="card"><img src="photos/bmlips2.jpg" alt="Lips"><span class="label">Lips</span></div>
-        <div class="card"><img src="photos/bmbody.jpg" alt="Body"><span class="label">Body</span></div>
-        <div class="card"><img src="photos/bmeyes.jpg" alt="Eyes" style="align-content: left;" /> <span class="label">Eyes</span></div>
+        <div class="card"><img src="pictures/bmface.jpg" alt="Face" style="align-content: center;" /> <span class="label">Face</span></div>
+        <div class="card"><img src="pictures/bmlips2.jpg" alt="Lips"><span class="label">Lips</span></div>
+        <div class="card"><img src="pictures/bmbody.jpg" alt="Body"><span class="label">Body</span></div>
+        <div class="card"><img src="pictures/bmeyes.jpg" alt="Eyes" style="align-content: left;" /> <span class="label">Eyes</span></div>
       </div>
-      <div class="arrow" onclick="nextSlide('categories')">❯</div>
+      <div class="arrow arrow-next" onclick="nextSlide('categories')">❯</div>
     </div>
   </section>
 
   <section class="slider-section">
     <h2 class="slider-title">Meet our influencers</h2>
     <div class="slider-container">
-      <div class="arrow" onclick="prevSlide('influencers')">❮</div>
+      <div class="arrow arrow-prev" onclick="prevSlide('influencers')">❮</div>
       <div class="slider-track" id="influencers">
-        <div class="card"><img src="photos/influencer1.jpg" alt="@beautyguru1"><span class="label">@beautyguru1</span></div>
-        <div class="card"><img src="photos/influencer2.jpeg" alt="@makeupqueen"><span class="label">@makeupqueen</span></div>
-        <div class="card"><img src="photos/Influencer.3jpg.jpg" alt="@glowbabe"><span class="label">@glowbabe</span></div>
-        <div class="card"><img src="photos/influencer4 .jpg" alt="@styleicon"><span class="label">@styleicon</span></div>
+        <div class="card"><img src="pictures/influencer1.jpg" alt="@beautyguru1"><span class="label">@beautyguru1</span></div>
+        <div class="card"><img src="pictures/influencer2.jpeg" alt="@makeupqueen"><span class="label">@makeupqueen</span></div>
+        <div class="card"><img src="pictures/Influencer.3jpg.jpg" alt="@glowbabe"><span class="label">@glowbabe</span></div>
+        <div class="card"><img src="pictures/influencer4 .jpg" alt="@styleicon"><span class="label">@styleicon</span></div>
       </div>
-      <div class="arrow" onclick="nextSlide('influencers')">❯</div>
+      <div class="arrow arrow-next" onclick="nextSlide('influencers')">❯</div>
     </div>
   </section>
 
@@ -619,17 +564,17 @@
     <h2 class="slider-title">Upcoming Events</h2>
     <div class="events-grid">
       <div class="event-card">
-        <img src="photos/rareselena.jpg" alt="Event 1" />
+        <img src="pictures/rareselena.jpg" alt="Event 1" />
         <h3>Event 1</h3>
         <p>Join us for a beauty workshop!</p>
       </div>
       <div class="event-card">
-        <img src="photos/beauty-products.jpg" alt="Event 2" />
+        <img src="pictures/beauty-products.jpg" alt="Event 2" />
         <h3>Event 2</h3>
         <p>Exclusive product launch party.</p>
       </div>
       <div class="event-card">
-        <img src="photos/event.jpg" alt="Event 3" />
+        <img src="pictures/event.jpg" alt="Event 3" />
         <h3>Event 3</h3>
         <p>Meet our beauty experts!</p>
       </div>
@@ -637,7 +582,7 @@
   </section>
 
   <div class="event-banner">
-    <img src="photos/event banner.jpg" alt="Event banner">
+    <img src="pictures/event banner.jpg" alt="Event banner">
     <div class="event-text">
       <p>Don't miss our upcoming glow event!</p>
       <button class="btn">Register</button>
@@ -670,78 +615,49 @@
   <script>
     function nextSlide(id) {
       const track = document.getElementById(id);
-      const cardWidth = track.children[0].offsetWidth + 20;
-      
-      track.style.scrollBehavior = 'smooth';
-      track.scrollLeft += cardWidth;
-      
+      const cardWidth = track.children[0].offsetWidth + 20; // Card width + gap
+      track.style.transition = 'transform 0.3s ease';
+      track.style.transform = `translateX(-${cardWidth}px)`;
       setTimeout(() => {
-        track.style.scrollBehavior = 'auto';
+        track.style.transition = 'none';
         track.appendChild(track.children[0]);
-        track.scrollLeft = 0;
-      }, 500);
+        track.style.transform = 'translateX(0)';
+      }, 300);
     }
 
     function prevSlide(id) {
       const track = document.getElementById(id);
-      const cardWidth = track.children[0].offsetWidth + 20;
-    
-      track.style.scrollBehavior = 'auto';
+      const cardWidth = track.children[0].offsetWidth + 20; 
+      track.style.transition = 'none';
       track.insertBefore(track.children[track.children.length - 1], track.children[0]);
-      track.scrollLeft = cardWidth;
-      
+      track.style.transform = `translateX(-${cardWidth}px)`;
       setTimeout(() => {
-        track.style.scrollBehavior = 'smooth';
-        track.scrollLeft = 0;
+        track.style.transition = 'transform 0.3s ease';
+        track.style.transform = 'translateX(0)';
       }, 10);
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('section, .event-banner, .site-footer');
+    
+    // Trigger animation when element becomes visible
+    document.addEventListener('DOMContentLoaded', function() {
+      const promoSection = document.querySelector('.promo-split');
       
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            const promoText = entry.target.querySelector('.promo-text');
+            const promoImage = entry.target.querySelector('.promo-image');
+            
+            promoText.style.animation = 'slideInFromLeft 1s forwards';
+            promoImage.style.animation = 'slideInFromRight 1s forwards';
+            
+            observer.unobserve(entry.target);
           }
         });
-      }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -100px 0px' 
-      });
+      }, { threshold: 0.2 });
       
-      sections.forEach(section => {
-        observer.observe(section);
-      });
-
-      window.onscroll = function() {
-        updateProgressBar();
-      };
-    });
-
-    function updateProgressBar() {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      document.getElementById("progressBar").style.width = scrolled + "%";
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const promoSection = document.querySelector('.promo-split');
-      
-      const observerSpecial = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observerSpecial.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.25 
-      });
-      
-      observerSpecial.observe(promoSection);
+      observer.observe(promoSection);
     });
   </script>
+
 </body>
 </html>
